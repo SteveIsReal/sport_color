@@ -1,0 +1,20 @@
+ 
+Create for coach
+Game
+    - game_name
+
+Student
+    - name
+    - color
+    - game_register (Foreign Game)
+
+Team
+    - Color
+    - Game
+    - Students (ManyToMany Student)
+
+Create buildboard
+
+Game
+    - game (Foreign Game)
+
