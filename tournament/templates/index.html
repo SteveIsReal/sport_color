@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>All tournament</h1>
+        {% if tournaments%}
+            {% for i in tournaments %}
+                <ul>
+                    <li>
+                        <dev>
+                            <h1>{{i.team1.color}}</h1>
+                            {% if i.team1.name %}
+                            <h3>{{i.team1.name}}</h3>
+                            {% else %}
+                            <h3>No team name</h3>
+                            {% endif %}
+                        </dev>
+                    </li>
+                    <li>
+                        <dev>
+                            <h1>{{i.team2.color}}</h1>
+                            {% if i.team2.name %}
+                            <h3>{{i.team2.name}}</h3>
+                            {% else %}
+                            <h3>No team name</h3>
+                            {% endif %}
+                        </dev>
+                    </li>
+                    <hr>
+                </ul>
+            {% endfor %}
+        {% endif %}
+        
+    </body>
+</html>
