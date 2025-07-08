@@ -11,6 +11,12 @@ def tournament(request):
     }
     return render(request, 'index.html', content)
 
+def score(request):
+    content = {
+        "score" : Score.objects.all()
+    }
+    return render(request, 'score.html', content)
+
 def apitournament(request):
     response_data = []
     for i in Tournament.objects.all():
