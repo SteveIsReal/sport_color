@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from buildboard.models import Team, Game
-from .models import Tournament, Score
+from .models import Tournament, Score, Event, EventGroup
 from json import dumps
 
 
@@ -45,3 +45,7 @@ def apiscore(request):
         response_data.append(data)
 
     return HttpResponse(dumps(response_data))
+
+def apiall(request):
+    response_data = []
+
