@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from buildboard.models import Team, Game
 from .models import Tournament, Score, Event, EventGroup
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from json import dumps
 
 
@@ -17,16 +20,22 @@ def score(request):
     }
     return render(request, 'score.html', content)
 
-def apitournament(request):
-    response_data = []
-    for i in Tournament.objects.all():
-        data = {}
-        data['game'] = i.game.name
-        data['team1'] = i.team1.name
-        data['team2'] = i.team2.name
-        response_data.append(data)
+class TournamentAPI(APIView):
+    def __create_tournament_list(self, request):
+        tournament = Tournament.objects.all()
+        tournament_list = list()
+        for i in tournament:
+            tournament_dict = dict()
+            tournament_dict['event'] = i.event.name
+            tournament_dict["game"] = i.game.name
+            tournament_dict['team1'] = i.team1.name
+            tournament_dict['team2'] = i.team2.name
+            tournament_list.append(tournament_dict)
+        return tournament_list
 
-    return HttpResponse(dumps(response_data))
+    def get(self,request):
+        data = self.__create_tournament_list(request)
+        return Response(status=status.HTTP_200_OK, data=data)
 
 def apiscore(request):
     response_data = []
@@ -46,6 +55,37 @@ def apiscore(request):
 
     return HttpResponse(dumps(response_data))
 
-def apiall(request):
-    response_data = []
+class EventAPI(APIView):
 
+    def __create_event_group_list(self, request):
+        response_data = []
+        event_group = EventGroup.objects.all()
+
+        for i in event_group:
+            response_dict = dict()
+            response_dict['event_group'] = i.name
+            for j in i.event_connect.all():
+                response_dict[j.name] = dict()
+                response_dict[j.name]['place'] = j.place
+                response_dict[j.name]['venue'] = j.venue
+                response_dict[j.name]['date'] = j.date
+                response_dict[j.name]['start_time'] = j.start_time
+                response_dict[j.name]['end_time'] = j.end_time
+                response_dict[j.name]['tournaments'] = dict()
+                for k in j.tournament_connect.all():
+                    response_dict[j.name]['tournaments'][k.name] = dict()
+                    response_dict[j.name]['tournaments'][k.name]['game'] = k.game.name
+                    response_dict[j.name]['tournaments'][k.name]['team1'] = k.team1.name
+                    response_dict[j.name]['tournaments'][k.name]['team2'] = k.team2.name
+                    response_dict[j.name]['tournaments'][k.name]['score'] = dict()
+                    for l in k.score_connect.all():
+                        response_dict[j.name]['tournaments'][k.name]['score'][f'game_set{l.game_set}'] = dict()
+                        response_dict[j.name]['tournaments'][k.name]['score'][f'game_set{l.game_set}']['score1'] = l.score1 
+                        response_dict[j.name]['tournaments'][k.name]['score'][f'game_set{l.game_set}']['score2'] = l.score2
+
+            response_data.append(response_dict)
+        return response_data
+        
+    def get(self, request):
+        data = self.__create_event_group_list(request)
+        return Response(status=status.HTTP_200_OK, data=data)

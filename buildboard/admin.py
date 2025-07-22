@@ -8,3 +8,7 @@ class AdminStudent(admin.ModelAdmin):
 @admin.register(Team)
 class AdminTeam(admin.ModelAdmin):
     pass
+
+@admin.register(Game)
+class AdminGame(admin.ModelAdmin):
+    pass

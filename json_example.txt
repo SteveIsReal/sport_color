@@ -1,0 +1,46 @@
+EventGroup : {
+
+    'name' : 'asdfas' 
+
+    'Event1' : {
+        'place' : 'somewhere'
+        'venue' : 'somewhere'
+        'data' : 'someday'
+        'start_time' : 'sometime'
+        'end_time' : 'sometime'
+
+        'tournament' : {
+            'tournament1' : {
+                'game' : 'game'
+                'team1' : 'someteam'
+                'team2' : 'someteam'
+                'score' : {
+                    'game_set1' : {
+                        'score1' : 12
+                        'score2' : 13
+                    }
+                    'game_set2' : {
+                        'score1' : 13
+                        'score2' : 12
+                    }
+                }
+
+            }
+            'tournament2' : {
+                'game' : 'game'
+                'team1' : 'team1'
+                'team2' : 'team2'
+                'score' : {
+                    'game_set1' : {
+                        'score1' : 12
+                        'score2' : 13
+                    }
+
+                    'game_set2' : {
+                        'score1' : 13
+                        'score2' : 12
+                    }
+                }
+        }
+
+}
