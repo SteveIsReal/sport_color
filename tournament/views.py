@@ -75,8 +75,18 @@ class EventAPI(APIView):
                 for k in j.tournament_connect.all():
                     response_dict[j.name]['tournaments'][k.name] = dict()
                     response_dict[j.name]['tournaments'][k.name]['game'] = k.game.name
-                    response_dict[j.name]['tournaments'][k.name]['team1'] = k.team1.name
-                    response_dict[j.name]['tournaments'][k.name]['team2'] = k.team2.name
+                    response_dict[j.name]['tournaments'][k.name]['team1'] = {}
+                    response_dict[j.name]['tournaments'][k.name]['team1']['name'] = k.team1.name
+                    response_dict[j.name]['tournaments'][k.name]['team1']['status'] = k.team1.status
+                    response_dict[j.name]['tournaments'][k.name]['team1']['members'] = []
+                    for r in k.team1.members.all():
+                        response_dict[j.name]['tournaments'][k.name]['team1']['members'].append(r.name)
+                    response_dict[j.name]['tournaments'][k.name]['team2'] = {}
+                    response_dict[j.name]['tournaments'][k.name]['team2']['name'] = k.team2.name
+                    response_dict[j.name]['tournaments'][k.name]['team2']['status'] = k.team2.status
+                    response_dict[j.name]['tournaments'][k.name]['team2']['members'] = []
+                    for r in k.team2.members.all():
+                        response_dict[j.name]['tournaments'][k.name]['team2']['members'].append(r.name)
                     response_dict[j.name]['tournaments'][k.name]['score'] = dict()
                     for l in k.score_connect.all():
                         response_dict[j.name]['tournaments'][k.name]['score'][f'game_set{l.game_set}'] = dict()

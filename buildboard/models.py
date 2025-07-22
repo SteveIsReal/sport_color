@@ -1,5 +1,6 @@
 from django.db import models
 
+STATUS = (('single','single'),('pair','pair'),('team','team'))
 COLORS = (('red','red'),('yellow','yellow'),('orange','orange'),('blue','blue'))
 
 class Game(models.Model):
@@ -20,6 +21,7 @@ class Team(models.Model):
     color = models.CharField(max_length=6, choices=COLORS)
     members = models.ManyToManyField(Student)
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    status = models.CharField(max_length=6, choices=STATUS, null=True)
 
     def __str__(self):
-        return f'{self.color} : {[i.name for i in self.members.all()]}'
+        return f'{self.status} : {self.color} : {[i.name for i in self.members.all()]}'
