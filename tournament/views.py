@@ -12,6 +12,7 @@ def tournament(request):
     content = {
         "tournaments" : Tournament.objects.all()
     }
+    print('hello')
     return render(request, 'index.html', content)
 
 def score(request):
