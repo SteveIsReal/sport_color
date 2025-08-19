@@ -100,3 +100,6 @@ class EventAPI(APIView):
     def get(self, request):
         data = self.__create_event_group_list(request)
         return Response(status=status.HTTP_200_OK, data=data)
+
+def scoreboard(request, sport):
+    return render(request, "index.html")
